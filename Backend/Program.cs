@@ -1,4 +1,6 @@
 using Backend.Data;
+using Backend.Services;
+using Backend.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,12 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
+// Injeção de Dependência
+builder.Services.AddScoped<IPessoaService, PessoaService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<ITransacaoService, TransacaoService>();
+builder.Services.AddScoped<IRelatorioService, RelatorioService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
