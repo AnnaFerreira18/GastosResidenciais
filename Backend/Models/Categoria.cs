@@ -13,4 +13,5 @@ public class Categoria
 
     [Required]
     public FinalidadeCategoria Finalidade { get; set; }
+    public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 }
