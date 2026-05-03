@@ -17,7 +17,7 @@ public class RelatorioService: IRelatorioService
     // Totais por pessoa
     public async Task<RelatorioGeralDto> ObterRelatorioTotaisAsync()
     {
-        // Include para carregar as transações de cada pessoa
+        //carregar as transações de cada pessoa
         var pessoasComTransacoes = await _context.Pessoas
             .Include(p => p.Transacoes)
             .ToListAsync();
@@ -48,19 +48,26 @@ public class RelatorioService: IRelatorioService
     // Totais por Categoria
     public async Task<RelatorioCategoriaDto> ObterRelatorioPorCategoriaAsync()
     {
-        var categoriasComTransacoes = await _context.Categorias
-        .Include(c => c.Transacoes) 
-        .ToListAsync();
+        // Busca todas as categorias e todas as transações de uma vez
+        var categorias = await _context.Categorias.ToListAsync();
+        var transacoes = await _context.Transacoes.ToListAsync();
 
-        var categoriasTotais = categoriasComTransacoes
-            .Select(c => new CategoriaTotalDto
+        var categoriasTotais = categorias.Select(c =>
+        {
+            // Filtra as transações que pertencem a esta categoria específica pelo ID
+            var transacoesDaCat = transacoes.Where(t => t.IdCategoria == c.Id).ToList();
+
+            var receitas = transacoesDaCat.Where(t => t.Tipo == TipoTransacao.Receita).Sum(t => t.Valor);
+            var despesas = transacoesDaCat.Where(t => t.Tipo == TipoTransacao.Despesa).Sum(t => t.Valor);
+
+            return new CategoriaTotalDto
             {
                 Descricao = c.Descricao,
-                TotalReceitas = c.Transacoes.Where(t => t.Tipo == TipoTransacao.Receita).Sum(t => t.Valor),
-                TotalDespesas = c.Transacoes.Where(t => t.Tipo == TipoTransacao.Despesa).Sum(t => t.Valor),
-                Saldo = c.Transacoes.Where(t => t.Tipo == TipoTransacao.Receita).Sum(t => t.Valor) -
-                        c.Transacoes.Where(t => t.Tipo == TipoTransacao.Despesa).Sum(t => t.Valor)
-            }).ToList();
+                TotalReceitas = receitas,
+                TotalDespesas = despesas,
+                Saldo = receitas - despesas
+            };
+        }).ToList();
 
         return new RelatorioCategoriaDto
         {

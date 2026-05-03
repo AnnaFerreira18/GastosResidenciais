@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models;
 
@@ -14,5 +15,6 @@ public class Pessoa
     public int Idade { get; set; }
 
     // Propriedade de navegação do EF Core
+    [JsonIgnore]
     public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 }
