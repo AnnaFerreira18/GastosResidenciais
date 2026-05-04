@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
 ![.NET 8](https://img.shields.io/badge/.NET_8-512BD4?style=flat&logo=dotnet&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white)
-![xUnit](https://img.shields.io/badge/xUnit-25A162?style=flat&logo=dotnet&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat&logo=swagger&logoColor=black)
 
 Este projeto é um sistema de gestão financeira doméstica. Ele permite o cadastro de pessoas, categorias e a movimentação de transações (receitas e despesas), aplicando regras de negócio específicas e gerando relatórios de saldo.
 
@@ -42,6 +42,8 @@ Este projeto é um sistema de gestão financeira doméstica. Ele permite o cadas
 ### 📌 Pré-requisitos
 * [.NET SDK 8.0+](https://dotnet.microsoft.com/download/dotnet/8.0)
 * [Node.js 22+](https://nodejs.org/)
+* Git
+* Entity Framework Core Tools instalado globalmente.
 
 ### 1. Configurando o Back-end (API)
 
@@ -52,11 +54,17 @@ cd Backend
 # Restaure as dependências do projeto
 dotnet restore
 
+# Instale o EF Core Tools (caso ainda não tenha):
+dotnet tool install --global dotnet-ef
+
 # Crie o banco de dados local via migrations
 dotnet ef database update
 
 # Inicie a API
 dotnet run
+
+# Execute os tests
+dotnet test Tests/Tests.csproj
 ```
 > **Nota:** A API geralmente iniciará em `https://localhost:7123` ou `http://localhost:5000`. Verifique o terminal para confirmar a porta exata.
 
@@ -85,7 +93,7 @@ npm run dev
 ### 📁 Back-end
 * `Models/`: Entidades principais e Enums.
 * `Data/`: Contexto do banco e configurações de persistência.
-* `Services/`: Onde a "mágica" acontece (Lógica de negócio e validações).
+* `Services/`: Lógica de negócio e validações.
 * `DTOs/`: Objetos para trânsito seguro de dados.
 * `Controllers/`: Exposição dos endpoints da API.
 
@@ -93,6 +101,10 @@ npm run dev
 * `src/pages/`: Telas da aplicação (Pessoas, Categorias, Transações e Relatórios).
 * `src/services/`: Configuração do Axios para chamadas à API.
 * `src/types/`: Definições de interfaces para garantir o Type Safety.
+* `src/components/`: Componentes da interface, incluindo a Navbar de navegação.
 
----
-Desenvolvido por [Anna Ferreira](https://github.com/AnnaFerreira18) 🚀
+
+
+#
+
+**Desenvolvido por [Anna Ferreira](https://github.com/AnnaFerreira18) 🚀**
