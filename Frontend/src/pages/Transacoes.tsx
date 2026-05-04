@@ -123,6 +123,9 @@ export default function Transacoes() {
     }).format(val);
   };
 
+  const truncarTexto = (texto: string, limite: number) => {
+  return texto.length > limite ? texto.substring(0, limite) + "..." : texto;
+  }; 
   return (
     <div
       style={{
@@ -315,13 +318,14 @@ export default function Transacoes() {
                     padding: "12px",
                     borderRadius: "5px",
                     border: "1px solid #ccc",
+                    textOverflow: "ellipsis"
                   }}
                   required
                 >
                   <option value="">Selecione a categoria...</option>
                   {categoriasFiltradas.map((c) => (
                     <option key={c.id} value={c.id}>
-                      {c.descricao}
+                      {truncarTexto(c.descricao, 50)} 
                     </option>
                   ))}
                 </select>
@@ -343,6 +347,7 @@ export default function Transacoes() {
                 </label>
                 <input
                   type="text"
+                  maxLength={400}
                   value={descricao}
                   onChange={(e) => setDescricao(e.target.value)}
                   style={{
@@ -478,18 +483,36 @@ export default function Transacoes() {
                             "Pessoa Excluída"}
                         </div>
                       </td>
-                      <td style={{ padding: "15px" }}>
-                        <div>{t.descricao}</div>
+                      <td style={{ padding: "15px", maxWidth: "250px" }}>
+                        <div 
+                          style={{ 
+                            fontWeight: "500",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis"
+                          }} 
+                          title={t.descricao}
+                        >
+                          {t.descricao}
+                        </div>
+
                         <small
                           style={{
                             backgroundColor: "#eee",
                             padding: "2px 6px",
                             borderRadius: "4px",
                             fontSize: "11px",
+                            display: "inline-block", 
+                            maxWidth: "100%",       
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            marginTop: "4px",
+                            color: "#666"
                           }}
+                          title={categorias.find((c) => c.id === t.idCategoria)?.descricao}
                         >
-                          {categorias.find((c) => c.id === t.idCategoria)
-                            ?.descricao || "Sem Categoria"}
+                          {categorias.find((c) => c.id === t.idCategoria)?.descricao || "Sem Categoria"}
                         </small>
                       </td>
                       <td style={{ padding: "15px", textAlign: "center" }}>

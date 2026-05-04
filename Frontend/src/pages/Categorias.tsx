@@ -317,7 +317,17 @@ export default function Categorias() {
                         key={cat.id}
                         style={{ borderBottom: "1px solid #eee" }}
                       >
-                        <td style={{ padding: "15px", fontWeight: 500 }}>
+                        <td 
+                          style={{ 
+                            padding: "15px", 
+                            fontWeight: 500,
+                            maxWidth: "300px",         
+                            whiteSpace: "nowrap",      
+                            overflow: "hidden",        
+                            textOverflow: "ellipsis"   
+                          }}
+                          title={cat.descricao}         //mostra o texto completo ao passar o mouse
+                        >
                           {cat.descricao}
                         </td>
                         <td style={{ padding: "15px", textAlign: "center" }}>
