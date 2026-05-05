@@ -100,6 +100,16 @@ export default function Pessoas() {
     setMostrarForm(true);
   };
 
+  const handleIdadeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let valorDigitado = e.target.value;
+
+    if (valorDigitado.length > 3) {
+      valorDigitado = valorDigitado.slice(0, 3);
+    }
+
+    setIdade(valorDigitado === "" ? "" : Number(valorDigitado));
+  };
+
   return (
     <div
       style={{
@@ -211,13 +221,10 @@ export default function Pessoas() {
                 <input
                   type="number"
                   min="0"
+                  max="150"
                   value={idade}
                   required
-                  onChange={(e) =>
-                    setIdade(
-                      e.target.value === "" ? "" : Number(e.target.value),
-                    )
-                  }
+                  onChange={handleIdadeChange}
                   style={{
                     width: "100%",
                     padding: "12px",
